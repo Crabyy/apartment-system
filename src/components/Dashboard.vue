@@ -7,7 +7,7 @@
           <q-toolbar-title v-if="userType === 'user'">Dashboard</q-toolbar-title>
           <q-toolbar-title v-if="userType === 'admin'">Admin Dashboard</q-toolbar-title>
 
-          <q-btn class="absolute top-0 right-0" flat label="Sign In" @click="goToSignIn" />
+          <q-btn v-if="!userType" class="absolute top-0 right-0" flat label="Sign In" @click="goToSignIn" />
         </q-toolbar>
         <div class="relative rounded-lg mx-auto overflow-hidden shadow-black cursor-pointer title"
           style="height: 250px; width: 100%" @click.prevent="openModal">

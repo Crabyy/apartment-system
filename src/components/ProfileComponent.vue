@@ -103,8 +103,8 @@
             </div>
 
             <div class="relative">
-              <input :type="showReNewPassword ? 'text' : 'password'" v-model="confirmNewPassword" name="Confirm password"
-                id="Confirm password" placeholder="Confirm Password"
+              <input :type="showReNewPassword ? 'text' : 'password'" v-model="confirmNewPassword"
+                name="Confirm password" id="Confirm password" placeholder="Confirm Password"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 dark:border-gray-500 dark:placeholder-gray-400" />
               <div v-if="confirmNewPasswordError" class="text-red-500 mt-1">
                 {{ confirmNewPasswordError }}
