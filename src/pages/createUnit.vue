@@ -34,29 +34,6 @@
               class="block mb-2 border w-full text-base px-2 py-1 pl-8 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-lg">
           </div>
 
-          <!-- <div class="mt-3 relative">
-            <label for="unitstatus" class="block text-base text-left font-medium text-gray-700 mb-2 ml-3">Status</label>
-            <div class="flex items-center">
-              <div class="flex items-center">
-                <label class="inline-flex items-center">
-                  <input type="radio" v-model="unitstatus" id="unitstatus" name="unitstatus" value="Good"
-                    class="form-radio h-5 w-5 text-blue-500">
-                  <span class="ml-2 text-sm">Good</span>
-                </label>
-                <label class="inline-flex items-center ml-6">
-                  <input type="radio" v-model="unitstatus" id="unitstatus" name="unitstatus" value="Bad"
-                    class="form-radio h-5 w-5 text-pink-500">
-                  <span class="ml-2 text-sm">Bad</span>
-                </label>
-                <label class="inline-flex items-center ml-6">
-                  <input type="radio" v-model="unitstatus" id="unitstatus" name="unitstatus" value="Maintenance"
-                    class="form-radio h-5 w-5 text-pink-500">
-                  <span class="ml-2 text-sm">Maintenance</span>
-                </label>
-              </div>
-            </div>
-          </div> -->
-
           <div class="mt-3 relative">
             <label for="unitposition"
               class="block text-base text-left font-medium text-gray-700 mb-2 ml-3">Position</label>
@@ -83,11 +60,11 @@
 
         </div>
 
-        <!-- second colmmn -->
+        <!-- second column -->
         <div class="w-full sm:w-1/2 pl-4">
 
           <div class="mt-3 relative">
-            <input type="text" v-model="unitprice" id="unitprice" name="unitprice" placeholder="Monthly Price"
+            <input type="text" v-model="unitprice" id="unitprice" name="unitprice" placeholder="Monthly Price" readonly
               class="block mb-2 border w-full text-base px-2 py-1 pl-8 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-lg">
           </div>
 
@@ -116,7 +93,7 @@
           </div>
 
         </div>
-        <!-- ... (existing code) ... -->
+
         <div class="flex items-center justify-end mt-6 w-full">
           <button type="button" name="createUnit" id="createUnit" @click="createUnit" class=" bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg focus:outline-none
               focus:shadow-outline text-sm">Create</button>
@@ -174,7 +151,8 @@
                     </svg>
                   </div>
                   <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Successfully Created
+                    <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Successfully
+                      Created
                     </h3>
                     <div class="mt-2">
                       <p class="text-sm text-gray-500">You can now go back. Thank you for
@@ -198,8 +176,6 @@
 </template>
 
 <script>
-// import axios from 'axios'
-
 export default {
   name: 'CreateUnit',
   data() {
@@ -211,7 +187,6 @@ export default {
 
       unitname: '',
       unitno: '',
-      // unitstatus: '',
       unitposition: '',
       unitprice: '',
       unittype: '',
@@ -220,7 +195,18 @@ export default {
       unitnoExistError: '',
     }
   },
-
+  watch: {
+    // Watch for changes in unittype and update unitprice accordingly
+    unittype: function (newVal, oldVal) {
+      if (newVal === 'Studio Unit') {
+        this.unitprice = '10000';
+      } else if (newVal === 'One Bed Room') {
+        this.unitprice = '20000';
+      } else if (newVal === 'Two Bed Room') {
+        this.unitprice = '30000';
+      }
+    }
+  },
   methods: {
     openModal() {
       this.showModal = true
