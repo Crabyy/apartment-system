@@ -7,10 +7,11 @@
           <q-toolbar-title v-if="userType === 'user'">Dashboard</q-toolbar-title>
           <q-toolbar-title v-if="userType === 'admin'">Admin Dashboard</q-toolbar-title>
 
-          <q-btn v-if="!userType" class="absolute top-0 right-0" flat label="Sign In" @click="goToSignIn" />
+          <q-btn v-if="!userType" class="absolute top-0 right-0 mt-2 mx-2 my-2 bg-blue  " flat label="Sign In"
+            @click="goToSignIn" />
         </q-toolbar>
         <div class="relative rounded-lg mx-auto overflow-hidden shadow-black cursor-pointer title"
-          style="height: 250px; width: 100%" @click.prevent="openModal">
+          style="height: 250px; width: 98%; margin-top: 2%;" @click.prevent="openModal">
           <!-- Set your desired height and width -->
           <!-- Set your desired height -->
           <img src="src/assets/apartment.jpg" alt="Current Picture" class="object-cover object-center w-full h-full" />
@@ -23,7 +24,7 @@
 
       <div>
         <div class="row flex flex-col">
-          <div class="flex">
+          <div class="flex justify-center">
             <!-- Container 1: Studio Unit -->
             <div
               class="rounded-lg mt-10 m-auto ml-0 relative overflow-hidden shadow-md shadow-black cursor-pointer title"

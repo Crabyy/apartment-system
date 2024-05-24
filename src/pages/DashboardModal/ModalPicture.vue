@@ -2,7 +2,8 @@
   <div v-if="showModal" class="fixed inset-0 z-50 overflow-auto bg-smoke-dark flex select-none backdrop-blur-sm">
     <div class="relative p-8 bg-white w-full max-w-2xl m-auto flex-col flex rounded-lg shadow-black border mongos">
       <button @click="closeModal" class="absolute top-0 right-0 p-4">
-        <svg class="fill-current text-grey" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+        <svg class="fill-current text-grey" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24"
+          width="24">
           <path d="M0 0h24v24H0z" fill="none" />
           <path
             d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
@@ -19,8 +20,13 @@
           </div>
 
           <!-- Big Square for Text -->
-          <div class="bg-white p-8 rounded-lg mt-6 shadow-md shadow-black text-justify mongo1">
-            <p>Discover modern living at <b>Pang-Kape Apartment</b>. Our stylish apartments blend comfort and convenience, situated in prime locations for easy access to amenities. Enjoy pet-friendly ameneties catering to your furry friends, we offer pet-friendly features such as a dedicated dog park, grooming station, and pet-friendly social events and a seamless living experience with our dedicated team. Elevate your lifestyle at <b>Pang-Kape Apartment</b>.</p>
+          <h3><b>Pang-Kape Apartment System</b></h3>
+          <div class="bg-white p-8 rounded-lg shadow-md shadow-black text-justify mongo1">
+            <p>Discover modern living at <b>Pang-Kape Apartment</b>. Our stylish apartments blend comfort and
+              convenience, situated in prime locations for easy access to amenities. Enjoy pet-friendly ameneties
+              catering to your furry friends, we offer pet-friendly features such as a dedicated dog park, grooming
+              station, and pet-friendly social events and a seamless living experience with our dedicated team. Elevate
+              your lifestyle at <b>Pang-Kape Apartment</b>.</p>
           </div>
         </div>
 
