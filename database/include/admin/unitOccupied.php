@@ -9,7 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     header("Content-Type: application/json");
     echo json_encode(['error' => 'Connection failed: ' . $conn->connect_error]);
   } else {
-    $stmt = $conn->prepare("SELECT id, unitname, unitno, unitposition, unitprice, unittype FROM units WHERE status = 0");
+    // Fetch units that are occupied (status = 0)
+    $stmt = $conn->prepare("SELECT units.id, unitname, unitno, unitposition, unitprice, unittype, users.username
+                            FROM units
+                            LEFT JOIN users ON units.acquired_by = users.id
+                            WHERE units.status = 0");
     $stmt->execute();
 
     $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -31,7 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
       header("Content-Type: application/json");
       echo json_encode(['error' => 'Connection failed: ' . $conn->connect_error]);
     } else {
-      $stmt = $conn->prepare("UPDATE units SET status = 1 WHERE id = ?");
+      // Update the unit's status to 'available' (1) and set acquired_by to NULL
+      $stmt = $conn->prepare("UPDATE units SET status = 1, acquired_by = NULL WHERE id = ?");
       $stmt->bind_param('i', $input['id']);
       $stmt->execute();
 

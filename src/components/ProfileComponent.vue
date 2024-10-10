@@ -1,9 +1,9 @@
 <template>
   <div class="admin-profile-container bg-gray-800 rounded-lg text-white border-1 text-lg">
+  <p v-for="text in texts" :key="text.id">{{ text.content }}</p>
     <!-- My Profile Section -->
     <div class="my-profile">
       <h2 class="ml-[10px] text-[40px] pb-7 text-bold">My Profile</h2>
-      <!-- Circular Image -->
 
       <!-- Name, Age -->
       <div class="profile-details text-[20px] pl-[20px] flex-col">
@@ -49,7 +49,32 @@
         <p class="text-lg pt-1" v-if="userType === 'user'">Contact Number: {{ userData.contactnumber }}</p>
       </div>
     </div>
+
+        <!-- Acquired Units Section -->
+        <div v-if="userData = userType === 'user' && userData.acquiredUnits && userData.acquiredUnits.length > 0" class="p-4">
+
+  <h2 class="ml-2 text-2xl font-semibold text-white border-b-2 pb-2 mb-4"></h2>
+  <h2 class="ml-[10px] text-[30px] pb-1 text-bold">Acquired Units</h2>
+  <ul class="space-y-4">
+    <li v-for="unit in userData.acquiredUnits" :key="unit.id" class="bg-white shadow-md rounded-lg p-4 flex flex-col md:flex-row justify-between items-start md:items-center">
+      <div class="text-lg font-medium text-gray-700">
+        <span class="block md:inline">Unit Name:</span>
+        <span class="font-semibold text-gray-900">{{ unit.unitname }}</span>
+      </div>
+      <div class="text-lg font-medium text-gray-700 mt-2 md:mt-0 md:ml-6">
+        <span class="block md:inline">Unit No:</span>
+        <span class="font-semibold text-gray-900">{{ unit.unitno }}</span>
+      </div>
+      <div class="text-lg font-medium text-gray-700 mt-2 md:mt-0 md:ml-6">
+        <span class="block md:inline">Price:</span>
+        <span class="font-semibold text-green-600">Php {{ unit.unitprice.toLocaleString() }}</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
   </div>
+
   <!-- Main modal -->
   <div id="authentication-modal" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -255,13 +280,60 @@ export default {
       }
     },
 
-    updateProfileData() {
-      const updatedUserData = sessionStorage.getItem("userData");
-      if (updatedUserData) {
-        this.userData = JSON.parse(updatedUserData);
-        sessionStorage.setItem("userData", updatedUserData);
+    // updateProfileData() {
+    //   const updatedUserData = sessionStorage.getItem("userData");
+    //   if (updatedUserData) {
+    //     this.userData = JSON.parse(updatedUserData);
+    //     sessionStorage.setItem("userData", updatedUserData);
+    //   }
+    // },
+
+ // Function to fetch user data from the server
+ async fetchUserData() {
+    try {
+      const userId = this.userData.id;
+      if (!userId) {
+        console.error('userId is missing!');
+        return;
       }
-    },
+      // Fetch user data and acquired units
+      const response = await axios.get(`http://localhost/system-main/database/include/user/getUserUnits.php?userId=${userId}`);
+      if (response.data.success) {
+        // Update the sessionStorage and reactive userData
+        const updatedUserData = { ...this.userData, acquiredUnits: response.data.acquiredUnits };
+        sessionStorage.setItem('userData', JSON.stringify(updatedUserData));
+        this.userData = updatedUserData;
+      } else {
+        console.error('Failed to fetch acquired units:', response.data.message);
+      }
+    } catch (error) {
+      console.error('An error occurred while fetching user data:', error);
+    }
+  },
+
+  // Manual trigger when necessary
+  updateProfileData() {
+    const updatedUserData = sessionStorage.getItem('userData');
+    if (updatedUserData) {
+      this.userData = JSON.parse(updatedUserData);
+      this.fetchUserData();  // Fetch fresh user data from the server
+    }
+
+  },
+
+
+  // Optimized polling function with a more reasonable interval
+  startDataPolling() {
+    this.pollingInterval = setInterval(() => {
+      this.fetchUserData();  // Fetch data every 10 seconds (adjustable)
+    }, 10000);  // Poll every 10 seconds
+  },
+
+  stopDataPolling() {
+    if (this.pollingInterval) {
+      clearInterval(this.pollingInterval);
+    }
+  }
 
   },
 
@@ -292,6 +364,17 @@ export default {
   },
 
   mounted() {
+    const storedUserData = sessionStorage.getItem('userData');
+  if (storedUserData) {
+    this.userData = JSON.parse(storedUserData);
+    this.fetchUserData();  // Fetch the latest data from the server
+  } else {
+    console.error('No userData in session storage');
+  };
+
+    // Optionally start polling if you want the data to auto-refresh every few seconds
+    this.startDataPolling();
+
     // Attach event listener to the button to toggle the modal
     document
       .getElementById("toggleModalBtn")
@@ -301,7 +384,16 @@ export default {
     document
       .querySelector('[data-modal-hide="authentication-modal"]')
       .addEventListener("click", this.closeModal);
+
+
+
   },
+
+  beforeUnmount() {
+  // Stop polling when the component is unmounted
+  this.stopDataPolling();
+  },
+
 };
 </script>
 
@@ -310,7 +402,8 @@ export default {
 .admin-profile-container {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   padding: 50px;
-  height: 85vh;
+  min-height: 50px; /* Initial minimum height to prevent collapse */
+  /* Removed max-height and overflow-y */
 }
 
 .my-profile {
@@ -324,25 +417,6 @@ export default {
   justify-content: center;
 }
 
-.column {
-  width: 100%;
-}
-
-.admin-profile-container {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  padding: 50px;
-  height: 85vh;
-}
-
-.my-profile {
-  align-items: center;
-  margin-top: 10px;
-}
-
-.two-column-info {
-  display: flex;
-  padding: 10px 0 0 20px;
-}
 
 .column {
   width: 43%;

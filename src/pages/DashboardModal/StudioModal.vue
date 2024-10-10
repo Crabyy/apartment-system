@@ -40,8 +40,14 @@
             </q-carousel>
           </div>
           <!-- Big Square for Text -->
-          <h3><b>Studio Unit</b></h3>
-          <div class="bg-white p-8 rounded-lg shadow-md shadow-black text-justify">
+          <div class="bg-white p-2 rounded-lg shadow-md shadow-black  basic-info">
+            <h2><b>Facilties:</b></h2>
+            <div class="onebed">
+              <i class="ml-9 mr-14 fas fa-bed fa-2x"></i><i class="ml-14 mr-20 fa-solid fa-tv fa-2x"></i><i class="ml-10 mr-20 fa-solid fa-kitchen-set fa-2x"></i><i class="ml-16 fa-solid fa-solid fa-bath fa-2x"></i>
+                <p><b> One Bedroom</b> <b class="ml-14 mr-7"> Living Room</b>  <b class="ml-14 mr-7">Kitchen</b> <b class="ml-20">Bathroom</b></p>
+            </div>
+          </div>
+          <div class="bg-white p-8 mt-2 rounded-lg shadow-md shadow-black text-justify">
             <p>Welcome to the epitome of urban sophistication — our studio units. These carefully curated living spaces
               redefine the art of compact luxury, offering a harmonious blend of style and functionality. Enjoy the
               convenience of a fully furnished space, including a well-appointed kitchenette, contemporary furnishings,

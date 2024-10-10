@@ -302,35 +302,55 @@ export default {
     };
 
     const confirmSelect = async () => {
-      paymentMethodModalRef.value.showModal();
-      try {
-        console.log('Before fetch request');
-        const response = await fetch('http://localhost/system-main/database/include/admin/unitSelection.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            action: 'remove',
-            id: selectedUnit.value.id,
-          }),
-        });
-        console.log('After fetch request');
+  try {
+    const response = await fetch('http://localhost/system-main/database/include/admin/unitSelection.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        action: 'acquire',
+        userId: JSON.parse(sessionStorage.getItem("userData")).id, // Fetch the user ID
+        unitId: selectedUnit.value.id,  // The selected unit's ID
+      }),
+    });
 
-        const result = await response.json();
+    // Check if the response is OK
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
 
-        if (response.ok) {
-          console.log(result.message);
-        } else {
-          console.error(result.error);
-        }
-      } catch (error) {
-        console.error('Error removing unit:', error);
-      } finally {
-        removeDialogVisible.value = false;
-        selectedUnit.value = null;
+    const result = await response.json();
+
+    if (result.message) {
+      console.log("Unit acquired successfully:", result.message);
+
+      // Get current userData from sessionStorage
+      const userData = JSON.parse(sessionStorage.getItem("userData"));
+
+      // If the user already has acquired units, append the new one, else create the array
+      if (userData.acquiredUnits) {
+        userData.acquiredUnits.push(selectedUnit.value);
+      } else {
+        userData.acquiredUnits = [selectedUnit.value];
       }
-    };
+
+      // Update sessionStorage with the newly acquired units
+      sessionStorage.setItem("userData", JSON.stringify(userData));
+
+      // Show the payment modal
+      paymentMethodModalRef.value.showModal();
+    } else {
+      console.error(result.error);
+    }
+  } catch (error) {
+    console.error('Error acquiring unit:', error.message || error);
+  } finally {
+    selectDialogVisible.value = false;
+    selectedUnit.value = null;
+  }
+
+};
 
 
     return {

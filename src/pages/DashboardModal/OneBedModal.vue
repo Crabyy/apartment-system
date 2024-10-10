@@ -17,14 +17,14 @@
           <div class="q-pa-md">
             <q-carousel arrows animated v-model="slide" height="200px"
               style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.9); border-radius: 10px;">
-              <q-carousel-slide name="first" img-src="src/assets/1bedlb.jpg">
+              <q-carousel-slide name="first" img-src="">
                 <div class="absolute-bottom custom-caption">
                   <div class="text-h2">Living Room</div>
                   <div class="text-subtitle1">Pang-Kape Apartment</div>
                 </div>
               </q-carousel-slide>
 
-              <q-carousel-slide name="second" img-src="src/assets/1bedkitchen.jpg">
+              <q-carousel-slide name="second" img-src="">
                 <div class="absolute-bottom custom-caption">
                   <div class="text-h2">Kitchen</div>
                   <div class="text-subtitle1">Pang-Kape Apartment</div>
@@ -41,10 +41,16 @@
           </div>
 
           <!-- Big Square for Text -->
-          <h3><b>One Bed</b></h3>
-          <div class="bg-white p-8 rounded-lg shadow-md shadow-black text-justify mongo">
-            <p>Our one-bedroom units blend contemporary design with spacious comfort. Featuring a private bedroom,
-              modern
+          <div class="bg-white p-2 rounded-lg shadow-md shadow-black  basic-info">
+            <h2><b>Facilties:</b></h2>
+            <div class="onebed">
+                <i class="ml-9 mr-14 fas fa-bed fa-2x"></i><i class="ml-20 mr-20 fa-solid fa-tv fa-2x"></i><i class="ml-16 mr-12 fa-solid fa-kitchen-set fa-2x"></i><i class="ml-16 fa-solid fa-solid fa-bath fa-2x"></i>
+                <p><b> One Bedroom</b>  <b class="ml-20 mr-7">Living Room</b> <b class="ml-20">Kitchen</b> <b class="ml-20">Bathroom</b></p>
+            </div>
+          </div>
+
+          <div class="bg-white p-8 mt-2 rounded-lg shadow-md shadow-black text-justify mongo">
+            <p>
               living area, and a fully equipped kitchen, each unit is a tranquil haven. Elevate your lifestyle in the
               heart of the city with the perfect blend of luxury and practicality in our one-bedroom units.<br><br>
               <b>Price: </b>Php 20,000
