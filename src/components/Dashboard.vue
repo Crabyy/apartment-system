@@ -27,7 +27,7 @@
           </div>
         </div>
       </div>
-
+      
       <!-- Room Cards Display -->
       <div class="row flex flex-col">
         <div class="flex justify-center">
