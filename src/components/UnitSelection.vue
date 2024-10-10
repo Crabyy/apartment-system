@@ -1,25 +1,16 @@
 <template>
-  <div class="q-pa-md relative">
-    <q-carousel arrows animated v-model="slide" height="300px">
-      <q-carousel-slide name="first" img-src="src/assets/unitStudio.jpg">
-        <div class="absolute-bottom custom-caption">
-          <div class="text-h2">Studio Unit</div>
-          <div class="text-subtitle1"></div>
-        </div>
-      </q-carousel-slide>
-      <q-carousel-slide name="second" img-src="src/assets/onebed.jpg">
-        <div class="absolute-bottom custom-caption">
-          <div class="text-h2">One Bedroom</div>
-          <div class="text-subtitle1"></div>
-        </div>
-      </q-carousel-slide>
-      <q-carousel-slide name="third" img-src="src/assets/twobed.jpeg">
-        <div class="absolute-bottom custom-caption">
-          <div class="text-h2">Two Bedroom</div>
-          <div class="text-subtitle1"></div>
-        </div>
-      </q-carousel-slide>
-    </q-carousel>
+<div v-if="filteredUnits && filteredUnits.length > 0" class="carousel-container">
+    <div
+      v-for="(room, index) in filteredUnits"
+      :key="room.room_id"
+      class="carousel-slide"
+      :class="{ active: index === currentIndex }"
+    >
+      <img :src="'http://localhost/system-main/database/include/admin/' + room.imagePath" :alt="room.room_name" />
+      <div class="caption">
+        <h2>{{ room.room_name }}</h2>
+      </div>
+    </div>
   </div>
 
   <!-- Table -->
@@ -160,6 +151,39 @@ export default {
     const removeDialogVisible = ref(false);
     const selectDialogVisible = ref(false);
     const selectedUnit = ref(null);
+    const filteredUnits = ref([]);
+    const slide = ref("first");
+    const currentIndex = ref(0);
+
+    const fetchCarouselData = async () => {
+      try {
+        const response = await fetch('http://localhost/system-main/database/include/admin/allrooms.php');
+        const data = await response.json();
+        if (data.success) {
+          filteredUnits.value = data.rooms.filter(room =>
+            ["Studio Unit", "One Bed", "Two Bed"].includes(room.room_name)
+          );
+          console.log(filteredUnits.value)
+        } else {
+          console.error('Error fetching rooms:', data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    onMounted(() => {
+  fetchCarouselData();
+  fetchData();
+  startAutoScroll(); // Start auto-scrolling when component mounts
+});
+
+const startAutoScroll = () => {
+  setInterval(() => {
+    currentIndex.value = (currentIndex.value + 1) % filteredUnits.value.length;
+  }, 3000); // Change every 3 seconds
+};
+
 
     const columns = [
       {
@@ -268,8 +292,6 @@ export default {
       }
     };
 
-    onMounted(fetchData);
-
     const confirmRemove = async () => {
       try {
         console.log('Before fetch request');
@@ -370,13 +392,52 @@ export default {
 
       confirmSelect,
       paymentMethodModalRef,
-      slide: ref("first"),
+      
+      filteredUnits,
+      slide,
+      currentIndex,
     }
   },
 };
 </script>
 
 <style lang="sass" scoped>
+.carousel-container
+  display: flex
+  overflow: hidden
+  width: 100%
+  height: 300px
+  position: relative
+
+.carousel-slide
+  flex: 0 0 100%
+  opacity: 0
+  transition: opacity 0.5s ease
+  position: absolute
+  width: 100%
+  height: 100%
+
+  &.active
+    opacity: 1
+    position: relative
+
+  img
+    width: 100%
+    height: 100%
+    object-fit: cover
+
+.caption
+  position: absolute
+  bottom: 20px
+  left: 20px
+  color: white
+  background-color: rgba(0, 0, 0, 0.5)
+  padding: 10px
+  border-radius: 4px
+  h2
+    margin: 0
+    font-size: 1.5em
+
 .custom-caption
   text-align: center
   padding: 12px
