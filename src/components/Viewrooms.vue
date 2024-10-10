@@ -7,9 +7,8 @@
           <q-toolbar-title v-if="userType === 'user'"
             >Dashboard</q-toolbar-title
           >
-         
         </q-toolbar>
-        
+
         <div
           class="relative rounded-lg mx-auto overflow-hidden shadow-black cursor-pointer title"
           style="height: 250px; width: 100%"

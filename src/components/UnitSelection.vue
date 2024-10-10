@@ -1,12 +1,21 @@
 <template>
-<div v-if="filteredUnits && filteredUnits.length > 0" class="carousel-container">
+  <div
+    v-if="filteredUnits && filteredUnits.length > 0"
+    class="carousel-container"
+  >
     <div
       v-for="(room, index) in filteredUnits"
       :key="room.room_id"
       class="carousel-slide"
       :class="{ active: index === currentIndex }"
     >
-      <img :src="'http://localhost/system-main/database/include/admin/' + room.imagePath" :alt="room.room_name" />
+      <img
+        :src="
+          'http://localhost/system-main/database/include/admin/' +
+          room.imagePath
+        "
+        :alt="room.room_name"
+      />
       <div class="caption">
         <h2>{{ room.room_name }}</h2>
       </div>
@@ -15,17 +24,38 @@
 
   <!-- Table -->
   <div class="q-md">
-    <q-btn class="q-ml-md mb-3" color="primary" label="Create" @click.prevent="openCreateUnit"
-      v-if="userType === 'admin'" />
-    <q-table class="my-sticky-virtscroll-table" :virtual-scroll="false" :rows-per-page-options="[5]"
-      :virtual-scroll-sticky-size-start="48" row-key="id" :rows="rows" :columns="columns">
-
+    <q-btn
+      class="q-ml-md mb-3"
+      color="primary"
+      label="Create"
+      @click.prevent="openCreateUnit"
+      v-if="userType === 'admin'"
+    />
+    <q-table
+      class="my-sticky-virtscroll-table"
+      :virtual-scroll="false"
+      :rows-per-page-options="[5]"
+      :virtual-scroll-sticky-size-start="48"
+      row-key="id"
+      :rows="rows"
+      :columns="columns"
+    >
       <template v-slot:body-cell-action="props">
         <q-td :props="props">
-          <q-btn v-if="userType === 'admin'" label="Remove" color="negative" @click="removeRow(props.row)"
-            class="m-0.5" />
-          <q-btn v-if="userType === 'user'" label="Rent" color="blue" class="m-0.5"
-            @click="showSelectDialog(props.row)"></q-btn>
+          <q-btn
+            v-if="userType === 'admin'"
+            label="Remove"
+            color="negative"
+            @click="removeRow(props.row)"
+            class="m-0.5"
+          />
+          <q-btn
+            v-if="userType === 'user'"
+            label="Rent"
+            color="blue"
+            class="m-0.5"
+            @click="showSelectDialog(props.row)"
+          ></q-btn>
         </q-td>
       </template>
     </q-table>
@@ -34,39 +64,73 @@
   <createUnit ref="createUnit" />
 
   <!-- Custom Modal for Removing a Unit -->
-  <div v-if="removeDialogVisible" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+  <div
+    v-if="removeDialogVisible"
+    class="relative z-10"
+    aria-labelledby="modal-title"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div
+      class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+    ></div>
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-      <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+      <div
+        class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0"
+      >
         <div
-          class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+          class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+        >
           <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
             <div class="sm:flex sm:items-start">
               <div
-                class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                  stroke="currentColor" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"
+              >
+                <svg
+                  class="h-6 w-6 text-red-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                  />
                 </svg>
               </div>
               <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Are you sure you want to
-                  remove this unit?</h3>
+                <h3
+                  class="text-base font-semibold leading-6 text-gray-900"
+                  id="modal-title"
+                >
+                  Are you sure you want to remove this unit?
+                </h3>
                 <div class="text-body2">
-                  <br>
-                  Unit No: {{ selectedUnit.unitno }}
-                  Unit Name: {{ selectedUnit.unitname }}
+                  <br />
+                  Unit No: {{ selectedUnit.unitno }} Unit Name:
+                  {{ selectedUnit.unitname }}
                 </div>
               </div>
             </div>
           </div>
           <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-            <button type="button" @click="confirmRemove"
-              class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto">Yes,
-              Proceed</button>
-            <button type="button" @click="cancelRemove"
-              class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">Cancel</button>
+            <button
+              type="button"
+              @click="confirmRemove"
+              class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
+            >
+              Yes, Proceed
+            </button>
+            <button
+              type="button"
+              @click="cancelRemove"
+              class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+            >
+              Cancel
+            </button>
           </div>
         </div>
       </div>
@@ -74,40 +138,85 @@
   </div>
 
   <!-- Custom Modal for Selecting a Unit -->
-  <div v-if="selectDialogVisible" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+  <div
+    v-if="selectDialogVisible"
+    class="relative z-10"
+    aria-labelledby="modal-title"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div
+      class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+    ></div>
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-      <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+      <div
+        class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0"
+      >
         <div
-          class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+          class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+        >
           <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
             <div class="sm:flex sm:items-start">
               <div
-                class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-                <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                  stroke="currentColor" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10"
+              >
+                <svg
+                  class="h-6 w-6 text-green-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                  />
                 </svg>
               </div>
               <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                <h3 class="text-base font-semibold leading-6 text-gray-900 mb-3" id="modal-title">Unit Selected</h3>
+                <h3
+                  class="text-base font-semibold leading-6 text-gray-900 mb-3"
+                  id="modal-title"
+                >
+                  Unit Selected
+                </h3>
                 <div class="text-body">
-                  <div class="m-1">Unit No: <strong>{{ selectedUnit.unitno }}</strong></div>
-                  <div class="m-1">Unit Name: <strong>{{ selectedUnit.unitname }}</strong></div>
-                  <div class="m-1">Unit Type: <strong>{{ selectedUnit.unittype }}</strong></div>
-                  <div class="m-1">Monthly Price: <strong>Php {{ selectedUnit.unitprice.toLocaleString() }}</strong>
+                  <div class="m-1">
+                    Unit No: <strong>{{ selectedUnit.unitno }}</strong>
+                  </div>
+                  <div class="m-1">
+                    Unit Name: <strong>{{ selectedUnit.unitname }}</strong>
+                  </div>
+                  <div class="m-1">
+                    Unit Type: <strong>{{ selectedUnit.unittype }}</strong>
+                  </div>
+                  <div class="m-1">
+                    Monthly Price:
+                    <strong
+                      >Php {{ selectedUnit.unitprice.toLocaleString() }}</strong
+                    >
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-            <button type="button" @click="confirmSelect"
-              class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto">Yes,
-              Proceed to Payment</button>
-            <button type="button" @click="cancelSelect"
-              class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">Close</button>
+            <button
+              type="button"
+              @click="confirmSelect"
+              class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
+            >
+              Yes, Proceed to Payment
+            </button>
+            <button
+              type="button"
+              @click="cancelSelect"
+              class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+            >
+              Close
+            </button>
           </div>
         </div>
       </div>
@@ -120,10 +229,9 @@
 <script>
 import PaymentMethodModal from "src/pages/paymentModeModal.vue";
 import { ref, onMounted } from "vue";
-import createUnit from "src/pages/createUnit.vue"
+import createUnit from "src/pages/createUnit.vue";
 
 export default {
-
   components: {
     createUnit,
     PaymentMethodModal,
@@ -143,11 +251,10 @@ export default {
     closeCreateUnit() {
       this.showCreateUnit = false;
     },
-
   },
 
   setup() {
-    const paymentMethodModalRef = ref(null)
+    const paymentMethodModalRef = ref(null);
     const removeDialogVisible = ref(false);
     const selectDialogVisible = ref(false);
     const selectedUnit = ref(null);
@@ -157,33 +264,35 @@ export default {
 
     const fetchCarouselData = async () => {
       try {
-        const response = await fetch('http://localhost/system-main/database/include/admin/allrooms.php');
+        const response = await fetch(
+          "http://localhost/system-main/database/include/admin/allrooms.php"
+        );
         const data = await response.json();
         if (data.success) {
-          filteredUnits.value = data.rooms.filter(room =>
+          filteredUnits.value = data.rooms.filter((room) =>
             ["Studio Unit", "One Bed", "Two Bed"].includes(room.room_name)
           );
-          console.log(filteredUnits.value)
+          console.log(filteredUnits.value);
         } else {
-          console.error('Error fetching rooms:', data.message);
+          console.error("Error fetching rooms:", data.message);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
     onMounted(() => {
-  fetchCarouselData();
-  fetchData();
-  startAutoScroll(); // Start auto-scrolling when component mounts
-});
+      fetchCarouselData();
+      fetchData();
+      startAutoScroll(); // Start auto-scrolling when component mounts
+    });
 
-const startAutoScroll = () => {
-  setInterval(() => {
-    currentIndex.value = (currentIndex.value + 1) % filteredUnits.value.length;
-  }, 3000); // Change every 3 seconds
-};
-
+    const startAutoScroll = () => {
+      setInterval(() => {
+        currentIndex.value =
+          (currentIndex.value + 1) % filteredUnits.value.length;
+      }, 3000); // Change every 3 seconds
+    };
 
     const columns = [
       {
@@ -284,28 +393,33 @@ const startAutoScroll = () => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost/system-main/database/include/admin/unitSelection.php');
+        const response = await fetch(
+          "http://localhost/system-main/database/include/admin/unitSelection.php"
+        );
         const data = await response.json();
         rows.value = data.map((row) => ({ ...row }));
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
     const confirmRemove = async () => {
       try {
-        console.log('Before fetch request');
-        const response = await fetch('http://localhost/system-main/database/include/admin/unitSelection.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            action: 'remove',
-            id: selectedUnit.value.id,
-          }),
-        });
-        console.log('After fetch request');
+        console.log("Before fetch request");
+        const response = await fetch(
+          "http://localhost/system-main/database/include/admin/unitSelection.php",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              action: "remove",
+              id: selectedUnit.value.id,
+            }),
+          }
+        );
+        console.log("After fetch request");
 
         const result = await response.json();
 
@@ -316,7 +430,7 @@ const startAutoScroll = () => {
           console.error(result.error);
         }
       } catch (error) {
-        console.error('Error removing unit:', error);
+        console.error("Error removing unit:", error);
       } finally {
         removeDialogVisible.value = false;
         selectedUnit.value = null;
@@ -324,56 +438,57 @@ const startAutoScroll = () => {
     };
 
     const confirmSelect = async () => {
-  try {
-    const response = await fetch('http://localhost/system-main/database/include/admin/unitSelection.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        action: 'acquire',
-        userId: JSON.parse(sessionStorage.getItem("userData")).id, // Fetch the user ID
-        unitId: selectedUnit.value.id,  // The selected unit's ID
-      }),
-    });
+      try {
+        const response = await fetch(
+          "http://localhost/system-main/database/include/admin/unitSelection.php",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              action: "acquire",
+              userId: JSON.parse(sessionStorage.getItem("userData")).id, // Fetch the user ID
+              unitId: selectedUnit.value.id, // The selected unit's ID
+            }),
+          }
+        );
 
-    // Check if the response is OK
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
-    }
+        // Check if the response is OK
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
 
-    const result = await response.json();
+        const result = await response.json();
 
-    if (result.message) {
-      console.log("Unit acquired successfully:", result.message);
+        if (result.message) {
+          console.log("Unit acquired successfully:", result.message);
 
-      // Get current userData from sessionStorage
-      const userData = JSON.parse(sessionStorage.getItem("userData"));
+          // Get current userData from sessionStorage
+          const userData = JSON.parse(sessionStorage.getItem("userData"));
 
-      // If the user already has acquired units, append the new one, else create the array
-      if (userData.acquiredUnits) {
-        userData.acquiredUnits.push(selectedUnit.value);
-      } else {
-        userData.acquiredUnits = [selectedUnit.value];
+          // If the user already has acquired units, append the new one, else create the array
+          if (userData.acquiredUnits) {
+            userData.acquiredUnits.push(selectedUnit.value);
+          } else {
+            userData.acquiredUnits = [selectedUnit.value];
+          }
+
+          // Update sessionStorage with the newly acquired units
+          sessionStorage.setItem("userData", JSON.stringify(userData));
+
+          // Show the payment modal
+          paymentMethodModalRef.value.showModal();
+        } else {
+          console.error(result.error);
+        }
+      } catch (error) {
+        console.error("Error acquiring unit:", error.message || error);
+      } finally {
+        selectDialogVisible.value = false;
+        selectedUnit.value = null;
       }
-
-      // Update sessionStorage with the newly acquired units
-      sessionStorage.setItem("userData", JSON.stringify(userData));
-
-      // Show the payment modal
-      paymentMethodModalRef.value.showModal();
-    } else {
-      console.error(result.error);
-    }
-  } catch (error) {
-    console.error('Error acquiring unit:', error.message || error);
-  } finally {
-    selectDialogVisible.value = false;
-    selectedUnit.value = null;
-  }
-
-};
-
+    };
 
     return {
       columns,
@@ -392,11 +507,11 @@ const startAutoScroll = () => {
 
       confirmSelect,
       paymentMethodModalRef,
-      
+
       filteredUnits,
       slide,
       currentIndex,
-    }
+    };
   },
 };
 </script>

@@ -1,7 +1,10 @@
 <template>
   <div>
     <q-layout view="hHh Lpr lff" container style="height: 100vh">
-      <q-header elevated :class="$q.dark.isActive ? 'bg-secondary' : 'bg-gray-800'">
+      <q-header
+        elevated
+        :class="$q.dark.isActive ? 'bg-secondary' : 'bg-gray-800'"
+      >
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
           <!-- <q-toolbar-title v-if="userType === 'user'">Dashboard</q-toolbar-title> -->
@@ -9,15 +12,28 @@
         </q-toolbar>
       </q-header>
 
-      <q-drawer v-model="drawer" show-if-above :mini="miniState" @mouseover="miniState = false"
-        @mouseout="miniState = true" mini-to-overlay :width="200" :breakpoint="500" bordered
-        :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-gray-800 text-white'">
+      <q-drawer
+        v-model="drawer"
+        show-if-above
+        :mini="miniState"
+        @mouseover="miniState = false"
+        @mouseout="miniState = true"
+        mini-to-overlay
+        :width="200"
+        :breakpoint="500"
+        bordered
+        :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-gray-800 text-white'"
+      >
         <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }">
           <q-list padding>
             <!-- Profile -->
             <router-link to="Profile">
-              <q-item clickable v-ripple @click="selectItem('Profile')"
-                :class="{ 'q-item-active': selectedItem === 'Profile' }">
+              <q-item
+                clickable
+                v-ripple
+                @click="selectItem('Profile')"
+                :class="{ 'q-item-active': selectedItem === 'Profile' }"
+              >
                 <q-item-section avatar>
                   <i class="fa-solid fa-user text-lg"></i>
                 </q-item-section>
@@ -27,8 +43,12 @@
 
             <!-- Dashboard -->
             <router-link to="/Dashboard">
-              <q-item clickable v-ripple @click="selectItem('Dashboard')"
-                :class="{ 'q-item-active': selectedItem === 'Dashboard' }">
+              <q-item
+                clickable
+                v-ripple
+                @click="selectItem('Dashboard')"
+                :class="{ 'q-item-active': selectedItem === 'Dashboard' }"
+              >
                 <q-item-section avatar>
                   <i class="fa-solid fa-house text-lg"></i>
                 </q-item-section>
@@ -36,11 +56,14 @@
               </q-item>
             </router-link>
 
-
             <!-- UNIT SELECTION -->
             <router-link to="/UnitSelection">
-              <q-item clickable v-ripple @click="selectItem('UnitSelection')"
-                :class="{ 'q-item-active': selectedItem === 'UnitSelection' }">
+              <q-item
+                clickable
+                v-ripple
+                @click="selectItem('UnitSelection')"
+                :class="{ 'q-item-active': selectedItem === 'UnitSelection' }"
+              >
                 <q-item-section avatar>
                   <i class="fa-solid fa-building text-lg"></i>
                 </q-item-section>
@@ -59,8 +82,12 @@
             </router-link> -->
 
             <router-link to="/ClientAccount" v-if="userType === 'admin'">
-              <q-item clickable v-ripple @click="selectItem('ClientAcc')"
-                :class="{ 'q-item-active': selectedItem === 'ClientAcc' }">
+              <q-item
+                clickable
+                v-ripple
+                @click="selectItem('ClientAcc')"
+                :class="{ 'q-item-active': selectedItem === 'ClientAcc' }"
+              >
                 <q-item-section avatar>
                   <i class="fa-solid fa-users text-lg"></i>
                 </q-item-section>
@@ -69,8 +96,12 @@
             </router-link>
 
             <router-link to="/AdminAccount" v-if="userType === 'admin'">
-              <q-item clickable v-ripple @click="selectItem('AdminAcc')"
-                :class="{ 'q-item-active': selectedItem === 'AdminAcc' }">
+              <q-item
+                clickable
+                v-ripple
+                @click="selectItem('AdminAcc')"
+                :class="{ 'q-item-active': selectedItem === 'AdminAcc' }"
+              >
                 <q-item-section avatar>
                   <i class="fa-solid fa-user-tie text-lg"></i>
                 </q-item-section>
@@ -80,8 +111,12 @@
 
             <!-- UNIT OCCUPIED -->
             <router-link to="/UnitOccupied" v-if="userType === 'admin'">
-              <q-item clickable v-ripple @click="selectItem('UnitOccupied')"
-                :class="{ 'q-item-active': selectedItem === 'UnitOccupied' }">
+              <q-item
+                clickable
+                v-ripple
+                @click="selectItem('UnitOccupied')"
+                :class="{ 'q-item-active': selectedItem === 'UnitOccupied' }"
+              >
                 <q-item-section avatar>
                   <i class="fa-solid fa-building text-lg"></i>
                 </q-item-section>
@@ -94,7 +129,12 @@
         </q-scroll-area>
 
         <router-link to="/" class="logout-link">
-          <q-item clickable v-ripple @click="logoutDashboard" :class="{ 'q-item-active': selectedItem === 'Logout' }">
+          <q-item
+            clickable
+            v-ripple
+            @click="logoutDashboard"
+            :class="{ 'q-item-active': selectedItem === 'Logout' }"
+          >
             <q-item-section avatar>
               <i class="fa-solid fa-right-from-bracket text-lg"></i>
             </q-item-section>
