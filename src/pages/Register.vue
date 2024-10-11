@@ -674,7 +674,7 @@ export default {
         }
 
         const response = await fetch(
-          "http://localhost/system-main/database/api/user/register.php",
+          "http://localhost/apartment-system/database/api/user/register.php",
           {
             method: "POST",
             headers: {

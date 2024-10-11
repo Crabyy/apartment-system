@@ -313,7 +313,7 @@ export default {
 
         // Ensure this.userData and this.userData.id are defined
         if (this.userData && this.userData.id) {
-          const response = await axios.post("http://localhost/system-main/database/include/user/editProfile.php", {
+          const response = await axios.post("http://localhost/apartment-system/database/include/user/editProfile.php", {
             givenname: this.givenname,
             middlename: this.middlename,
             surname: this.surname,

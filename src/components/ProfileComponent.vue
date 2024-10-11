@@ -340,7 +340,7 @@ export default {
 
       try {
         const response = await axios.post(
-          "http://localhost/system-main/database/include/pass_inc.php",
+          "http://localhost/apartment-system/database/include/pass_inc.php",
           {
             id: this.userData.id,
             currentPassword: this.currentPassword,
@@ -387,7 +387,7 @@ export default {
         }
         // Fetch user data and acquired units
         const response = await axios.get(
-          `http://localhost/system-main/database/include/user/getUserUnits.php?userId=${userId}`
+          `http://localhost/apartment-system/database/include/user/getUserUnits.php?userId=${userId}`
         );
         if (response.data.success) {
           // Update the sessionStorage and reactive userData

@@ -136,7 +136,7 @@ export default {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost/system-main/database/include/admin/unitOccupied.php"
+          "http://localhost/apartment-system/database/include/admin/unitOccupied.php"
         );
         const data = await response.json();
         rows.value = data;
@@ -160,7 +160,7 @@ export default {
     const confirmRemove = async () => {
       try {
         const response = await fetch(
-          "http://localhost/system-main/database/include/admin/unitOccupied.php",
+          "http://localhost/apartment-system/database/include/admin/unitOccupied.php",
           {
             method: "POST",
             headers: {

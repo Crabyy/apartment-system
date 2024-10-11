@@ -31,7 +31,7 @@
           >
             <img
               :src="
-                'http://localhost/system-main/database/include/admin/' +
+                'http://localhost/apartment-system/database/include/admin/' +
                 room.imagePath
               "
               :alt="room.bannerTitle"
@@ -64,7 +64,7 @@
             <!-- Image section with fixed height -->
             <img
               :src="
-                'http://localhost/system-main/database/include/admin/' +
+                'http://localhost/apartment-system/database/include/admin/' +
                 room.imagePath
               "
               :alt="room.room_name"
@@ -261,7 +261,7 @@
             <img
               :src="
                 roomDetails.imagePreview ||
-                'http://localhost/system-main/database/include/admin/' +
+                'http://localhost/apartment-system/database/include/admin/' +
                   roomDetails.imagePath
               "
               alt="Room Image"
@@ -381,7 +381,7 @@ export default {
 
     getAllRooms() {
       fetch(
-        "http://localhost/system-main/database/include/admin/allrooms.php",
+        "http://localhost/apartment-system/database/include/admin/allrooms.php",
         {
           method: "GET",
         }
@@ -404,7 +404,7 @@ export default {
 
     fetchRoomDetails(room_id) {
       fetch(
-        `http://localhost/system-main/database/include/admin/getroom.php?room_id=${room_id}`
+        `http://localhost/apartment-system/database/include/admin/getroom.php?room_id=${room_id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -462,7 +462,7 @@ export default {
       formData.append("bannerTitle", this.newRoomData.bannerTitle || "");
       formData.append("image", this.newRoomData.image);
 
-      fetch("http://localhost/system-main/database/include/admin/upload.php", {
+      fetch("http://localhost/apartment-system/database/include/admin/upload.php", {
         method: "POST",
         body: formData,
       })
@@ -515,7 +515,7 @@ export default {
       }
 
       fetch(
-        "http://localhost/system-main/database/include/admin/editroom.php",
+        "http://localhost/apartment-system/database/include/admin/editroom.php",
         {
           method: "POST",
           body: formData,
@@ -542,7 +542,7 @@ export default {
 
     confirmRemoveRoom() {
       fetch(
-        `http://localhost/system-main/database/include/admin/removeroom.php?room_id=${this.roomToRemove}`,
+        `http://localhost/apartment-system/database/include/admin/removeroom.php?room_id=${this.roomToRemove}`,
         {
           method: "DELETE",
         }

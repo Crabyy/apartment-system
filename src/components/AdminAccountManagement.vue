@@ -186,7 +186,7 @@ export default {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost/system-main/database/include/admin/adminTable.php"
+          "http://localhost/apartment-system/database/include/admin/adminTable.php"
         );
         const data = await response.json();
         originalRows.value = data;
@@ -295,7 +295,7 @@ export default {
     const confirmRemove = async () => {
       try {
         const response = await fetch(
-          "http://localhost/system-main/database/include/admin/adminTable.php",
+          "http://localhost/apartment-system/database/include/admin/adminTable.php",
           {
             method: "POST",
             headers: {

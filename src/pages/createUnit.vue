@@ -272,7 +272,7 @@ export default {
 
       // Check if the unit number already exists
       try {
-        const response = await fetch('http://localhost/system-main/database/include/admin/checkUnitNo.php', {
+        const response = await fetch('http://localhost/apartment-system/database/include/admin/checkUnitNo.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -309,7 +309,7 @@ export default {
       }
 
       try {
-        const response = await fetch('http://localhost/system-main/database/include/admin/createUnit.php', {
+        const response = await fetch('http://localhost/apartment-system/database/include/admin/createUnit.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

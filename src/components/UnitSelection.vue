@@ -11,7 +11,7 @@
     >
       <img
         :src="
-          'http://localhost/system-main/database/include/admin/' +
+          'http://localhost/apartment-system/database/include/admin/' +
           room.imagePath
         "
         :alt="room.room_name"
@@ -265,7 +265,7 @@ export default {
     const fetchCarouselData = async () => {
       try {
         const response = await fetch(
-          "http://localhost/system-main/database/include/admin/allrooms.php"
+          "http://localhost/apartment-system/database/include/admin/allrooms.php"
         );
         const data = await response.json();
         if (data.success) {
@@ -394,7 +394,7 @@ export default {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost/system-main/database/include/admin/unitSelection.php"
+          "http://localhost/apartment-system/database/include/admin/unitSelection.php"
         );
         const data = await response.json();
         rows.value = data.map((row) => ({ ...row }));
@@ -407,7 +407,7 @@ export default {
       try {
         console.log("Before fetch request");
         const response = await fetch(
-          "http://localhost/system-main/database/include/admin/unitSelection.php",
+          "http://localhost/apartment-system/database/include/admin/unitSelection.php",
           {
             method: "POST",
             headers: {
@@ -440,7 +440,7 @@ export default {
     const confirmSelect = async () => {
       try {
         const response = await fetch(
-          "http://localhost/system-main/database/include/admin/unitSelection.php",
+          "http://localhost/apartment-system/database/include/admin/unitSelection.php",
           {
             method: "POST",
             headers: {
