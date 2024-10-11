@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 10, 2024 at 05:44 AM
+-- Generation Time: Oct 11, 2024 at 06:24 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -69,11 +69,10 @@ CREATE TABLE `room` (
 --
 
 INSERT INTO `room` (`room_id`, `room_name`, `description`, `price`, `imagePath`, `bannerTitle`) VALUES
-(14, 'One Bed', 'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd', 1233, 'uploads/MANGO SHAKE 4x6.jpg', NULL),
-(18, 'Two Bed', 'asaeasdasdasdsasaeasdasdasdsasaeasdasdasds', 123122, 'uploads/BW.png', NULL),
-(19, 'Studio Unit', 'dasdasdsdasd23123adasdasdsdasd23123adasdasdsdasd23123adasdasdsdasd23123a', 2323221, 'uploads/COLLEGE SUPERVISOR LAYOUT.jpg', NULL),
-(28, 'Banner', 'dadaadadasdadadasdadadasdadadasdadadasdsdadadasdadadasdadadasdadadasdadadasdadadasdadadasdadadasdadadasdadadasdadadasd', 0, 'uploads/MANGO SHAKE 4x6.jpg', 'Hello World'),
-(29, 'One Bed', 'asdasd', 1231231, 'uploads/AMORO FRONT POLO SHIRT copy.png', '');
+(30, 'Banner', 'Pang-Kape Apartment is a luxury Apartment', 0, 'uploads/apartment.jpg', 'Pang-Kape Apartment'),
+(31, 'Studio Unit', 'Studio Unit is a good unit ', 200000, 'uploads/2bedcr.jpg', 'Pang-Kape Apartment'),
+(32, 'One Bed', 'One Bed is a good unit', 400000, 'uploads/1bedlb.jpg', 'Pang-Kape Apartment'),
+(33, 'Two Bed', 'Two Bed is a good unit', 600000, 'uploads/1bedkitchen.jpg', 'Pang-Kape Apartment');
 
 -- --------------------------------------------------------
 
@@ -97,11 +96,12 @@ CREATE TABLE `units` (
 --
 
 INSERT INTO `units` (`id`, `unitname`, `unitno`, `status`, `unitposition`, `unitprice`, `unittype`, `acquired_by`) VALUES
-(1, 'mharck', 1, 0, 'Bay Side', 100000, 'One Bed Room', 1),
-(2, 'one bed', 10, 0, 'Bay Side', 10000, 'Studio Unit', 1),
+(1, 'mharck', 1, 1, 'Bay Side', 100000, 'One Bed Room', NULL),
+(2, 'one bed', 10, 1, 'Bay Side', 10000, 'Studio Unit', NULL),
 (3, 'asdasd', 11, 0, 'Lobby Side', 10000, 'Studio Unit', 1),
 (4, 'craby', 13, 0, 'Bay Side', 20000, 'One Bed Room', 1),
-(5, 'craby', 19, 1, 'High-Way Side', 20000, 'One Bed Room', NULL);
+(5, 'craby', 19, 0, 'High-Way Side', 20000, 'One Bed Room', 1),
+(6, 'Kent', 1234, 1, 'Bay Side', 20000, 'One Bed Room', NULL);
 
 -- --------------------------------------------------------
 
@@ -180,13 +180,13 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
-  MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `units`
 --
 ALTER TABLE `units`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
