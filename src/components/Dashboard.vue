@@ -20,16 +20,6 @@
         </q-toolbar>
       </div>
 
-      <!-- Add New Room Button for Admins -->
-      <div v-if="userType === 'admin'" class="flex justify-center my-4">
-        <q-btn
-          flat
-          label="Add New Room"
-          color="primary"
-          @click="showAddRoomModal = true"
-        />
-      </div>
-
       <!-- Display Banners at the Top -->
       <div class="row flex flex-col mb-6">
         <div class="flex justify-center">
@@ -63,63 +53,85 @@
 
       <!-- Room Cards Display -->
       <div class="row flex flex-col">
-        <div class="flex justify-center">
-          <div
-            v-for="room in filteredRooms"
-            :key="room.room_id"
-            class="room-card rounded-lg mt-10 m-auto ml-0 relative shadow-lg overflow-hidden"
-            style="width: 400px; height: 350px; margin-right: 20px"
-            @click="fetchRoomDetails(room.room_id)"
-          >
-            <img
-              :src="
-                'http://localhost/system-main/database/include/admin/' +
-                room.imagePath
-              "
-              :alt="room.room_name"
-              class="object-cover w-full h-1/2"
-            />
-            <div class="text-2xl font-bold text-black mb-2 text-center">
-              {{ room.room_name }}
-            </div>
-            <div class="p-4">
-              <p
-                class="text-lg font-semibold text-gray-800 mb-2 whitespace-pre-wrap"
-              >
-                {{ room.description }}
-              </p>
-              <!-- Facilities Icons -->
-              <div
-                v-if="room.room_name !== 'Banner'"
-                class="flex justify-around text-gray-600 mb-2"
-              >
-                <div class="text-center">
-                  <i class="fas fa-bed"></i>
-                  <p class="text-xs">{{ room.room_name }}</p>
-                </div>
-                <div class="text-center">
-                  <i class="fas fa-couch"></i>
-                  <p class="text-xs">Living Room</p>
-                </div>
-                <div class="text-center">
-                  <i class="fas fa-utensils"></i>
-                  <p class="text-xs">Kitchen</p>
-                </div>
-                <div class="text-center">
-                  <i class="fas fa-shower"></i>
-                  <p class="text-xs">Bathroom</p>
-                </div>
-              </div>
-              <div
-                v-if="room.room_name !== 'Banner'"
-                class="text-center text-lg font-bold text-green-600"
-              >
-                Price: {{ formatPrice(room.price) }}
-              </div>
-            </div>
-          </div>
+  <div class="flex justify-center">
+    <div
+      v-for="room in filteredRooms"
+      :key="room.room_id"
+      class="room-card rounded-lg mt-10 m-auto ml-0 relative shadow-lg overflow-hidden"
+      style="width: 400px; margin-right: 20px;"
+      @click="fetchRoomDetails(room.room_id)"
+    >
+      <!-- Image section with fixed height -->
+      <img
+        :src="
+          'http://localhost/system-main/database/include/admin/' +
+          room.imagePath
+        "
+        :alt="room.room_name"
+        class="object-cover w-full h-1/2"
+        style="height: 175px;"
+      />
+
+      <!-- Room Name -->
+      <div class="text-2xl font-bold text-black mb-2 text-center">
+        {{ room.room_name }}
+      </div>
+
+      <!-- Facilities Icons -->
+      <div
+        v-if="room.room_name !== 'Banner'"
+        class="flex justify-around text-gray-600 mb-2"
+      >
+        <div class="text-center">
+          <i class="fas fa-bed"></i>
+          <p class="text-xs">{{ room.room_name }}</p>
+        </div>
+        <div class="text-center">
+          <i class="fas fa-couch"></i>
+          <p class="text-xs">Living Room</p>
+        </div>
+        <div class="text-center">
+          <i class="fas fa-utensils"></i>
+          <p class="text-xs">Kitchen</p>
+        </div>
+        <div class="text-center">
+          <i class="fas fa-shower"></i>
+          <p class="text-xs">Bathroom</p>
         </div>
       </div>
+
+      <!-- Price Section -->
+      <div
+        v-if="room.room_name !== 'Banner'"
+        class="text-center text-lg font-bold text-green-600"
+      >
+        Price: {{ formatPrice(room.price) }}
+      </div>
+
+      <!-- Description Section -->
+      <div class="p-4 flex justify-center">
+  <p
+    class="text-lg font-semibold text-gray-800 mb-2 whitespace-pre-wrap text-center"
+    style="max-width: 600px; line-height: 1.6; margin: 0 auto;"
+  >
+    {{ room.description }}
+  </p>
+</div>
+    </div>
+  </div>
+</div>
+
+
+        <!-- Add New Room Button for Admins -->
+        <div v-if="userType === 'admin'" class="flex justify-start items-end my-4 h-full">
+  <q-btn
+    flat
+    label="Add New Room"
+    color="primary"
+    class="mb-4 ml-4 mt-20"
+    @click="showAddRoomModal = true"
+  />
+</div>
 
       <!-- Add Room Modal -->
       <q-dialog v-model="showAddRoomModal" persistent>
@@ -233,78 +245,81 @@
 
       <!-- Room Details/Edit Modal -->
       <q-dialog v-model="showRoomDetails" persistent>
-        <q-card style="min-width: 400px">
-          <q-card-section class="text-center">
-            <div class="text-h5 font-bold mb-2">
-              {{ roomDetails.room_name }}
-            </div>
-            <q-input
-              v-if="roomDetails.room_name === 'Banner'"
-              v-model="roomDetails.bannerTitle"
-              label="Banner Title"
-              :readonly="userType !== 'admin'"
-            />
-            <img
-              :src="
-                roomDetails.imagePreview ||
-                'http://localhost/system-main/database/include/admin/' +
-                  roomDetails.imagePath
-              "
-              alt="Room Image"
-              class="object-cover w-full h-48 mb-4"
-            />
-            <q-btn
-              v-if="userType === 'admin'"
-              flat
-              label="Change Image"
-              color="primary"
-              @click="triggerFileUpload('edit')"
-            />
-            <input
-              ref="fileInputEdit"
-              type="file"
-              @change="handleFileChange('edit')"
-              style="display: none"
-            />
-            <q-input
-              v-model="roomDetails.description"
-              label="Description"
-              :readonly="userType !== 'admin'"
-            />
-            <q-input
-              v-if="roomDetails.room_name !== 'Banner'"
-              v-model="roomDetails.price"
-              label="Price"
-              type="number"
-              :readonly="userType !== 'admin'"
-              class="text-center text-lg font-bold text-green-600 mb-4"
-            />
-          </q-card-section>
+  <q-card style="min-width: 400px">
+    <q-card-section class="text-center">
+      <div class="text-h5 font-bold mb-2">
+        {{ roomDetails.room_name }}
+      </div>
+      <q-input
+        v-if="roomDetails.room_name === 'Banner'"
+        v-model="roomDetails.bannerTitle"
+        label="Banner Title"
+        :readonly="userType !== 'admin'"
+      />
+      <img
+        :src="
+          roomDetails.imagePreview ||
+          'http://localhost/system-main/database/include/admin/' + roomDetails.imagePath
+        "
+        alt="Room Image"
+        class="object-cover w-full h-48 mb-4"
+      />
+      <q-btn
+        v-if="userType === 'admin'"
+        flat
+        label="Change Image"
+        color="primary"
+        @click="triggerFileUpload('edit')"
+      />
+      <input
+        ref="fileInputEdit"
+        type="file"
+        @change="handleFileChange('edit')"
+        style="display: none"
+      />
+      <q-input
+        v-model="roomDetails.description"
+        label="Description"
+        type="textarea"
+        autogrow
+        :readonly="userType !== 'admin'"
+        class="whitespace-pre-wrap"
+      />
+      <q-input
+        v-if="roomDetails.room_name !== 'Banner'"
+        v-model="roomDetails.price"
+        label="Price"
+        type="number"
+        :readonly="userType !== 'admin'"
+        class="text-center text-lg font-bold text-green-600 mb-4"
+      />
+    </q-card-section>
 
-          <q-card-actions align="right">
-            <q-btn
-              flat
-              label="Close"
-              color="primary"
-              @click="showRoomDetails = false"
-            />
-            <q-btn
-              v-if="userType === 'admin'"
-              flat
-              label="Save"
-              color="primary"
-              @click="saveRoomChanges"
-            />
-            <q-btn
-              v-if="userType === 'admin'"
-              flat
-              label="Remove"
-              color="red"
-              @click.stop="removeRoom(roomDetails.room_id)"
-            />
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
+    <q-card-actions align="right">
+      <q-btn
+        flat
+        label="Close"
+        color="primary"
+        @click="showRoomDetails = false"
+      />
+      <q-btn
+        v-if="userType === 'admin'"
+        flat
+        label="Save"
+        color="primary"
+        @click="saveRoomChanges"
+      />
+      <q-btn
+        v-if="userType === 'admin'"
+        flat
+        label="Remove"
+        color="red"
+        @click.stop="removeRoom(roomDetails.room_id)"
+      />
+    </q-card-actions>
+  </q-card>
+</q-dialog>
+
     </div>
   </div>
 </template>
@@ -429,32 +444,47 @@ export default {
     },
 
     addNewRoom() {
-      const formData = new FormData();
-      formData.append("room_name", this.newRoomData.room_name);
-      formData.append("description", this.newRoomData.description);
-      formData.append(
-        "price",
-        this.newRoomData.room_name === "Banner" ? "" : this.newRoomData.price
-      );
-      formData.append("bannerTitle", this.newRoomData.bannerTitle || "");
-      formData.append("image", this.newRoomData.image);
+    // Check if an image has been selected
+    if (!this.newRoomData.image) {
+      alert("Please select an image before adding the room.");
+      return; // Prevent further execution if no image is selected
+    }
 
-      fetch("http://localhost/system-main/database/include/admin/upload.php", {
-        method: "POST",
-        body: formData,
+    const formData = new FormData();
+    formData.append("room_name", this.newRoomData.room_name);
+    formData.append("description", this.newRoomData.description);
+    formData.append(
+      "price",
+      this.newRoomData.room_name === "Banner" ? "" : this.newRoomData.price
+    );
+    formData.append("bannerTitle", this.newRoomData.bannerTitle || "");
+    formData.append("image", this.newRoomData.image);
+
+    fetch("http://localhost/system-main/database/include/admin/upload.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          this.getAllRooms();
+          this.showAddRoomModal = false;
+          // Clear the form after successful addition
+          this.newRoomData = {
+            room_name: "",
+            description: "",
+            price: "",
+            bannerTitle: "",
+            image: null,
+            imagePreview: null,
+          };
+        } else {
+          console.error("Error adding room:", data.message);
+        }
       })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success) {
-            this.getAllRooms();
-            this.showAddRoomModal = false;
-          } else {
-            console.error("Error adding room:", data.message);
-          }
-        })
-        .catch((error) => {
-          console.error("Error adding room:", error);
-        });
+      .catch((error) => {
+        console.error("Error adding room:", error);
+      });
     },
 
     confirmAddRoom() {
@@ -504,31 +534,34 @@ export default {
     },
 
     removeRoom(room_id) {
-      this.roomToRemove = room_id;
-      this.showRemoveConfirm = true;
-    },
+    this.roomToRemove = room_id;
+    this.showRemoveConfirm = true;
+  },
 
-    confirmRemoveRoom() {
-      fetch(
-        `http://localhost/system-main/database/include/admin/removeroom.php?room_id=${this.roomToRemove}`,
-        {
-          method: "DELETE",
+  confirmRemoveRoom() {
+    fetch(
+      `http://localhost/system-main/database/include/admin/removeroom.php?room_id=${this.roomToRemove}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          // Close the modal and reset `roomToRemove`
+          this.showRemoveConfirm = false;
+          this.roomToRemove = null;
+
+          // Refresh the page to reflect changes
+          window.location.reload();
+        } else {
+          console.error("Error removing room:", data.message);
         }
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success) {
-            this.getAllRooms();
-            this.showRemoveConfirm = false;
-            this.roomToRemove = null;
-          } else {
-            console.error("Error removing room:", data.message);
-          }
-        })
-        .catch((error) => {
-          console.error("Error removing room:", error);
-        });
-    },
+      })
+      .catch((error) => {
+        console.error("Error removing room:", error);
+      });
+  },
 
     formatPrice(price) {
       return new Intl.NumberFormat("en-PH", {

@@ -25,7 +25,7 @@
   <!-- Table -->
   <div class="q-md">
     <q-btn
-      class="q-ml-md mb-3"
+      class="q-ml-md mb-3 mt-5"
       color="primary"
       label="Create"
       @click.prevent="openCreateUnit"
@@ -523,6 +523,8 @@ export default {
   width: 100%
   height: 300px
   position: relative
+  box-shadow: 0 0 50px #ccc
+  border-radius: 20px
 
 .carousel-slide
   flex: 0 0 100%
@@ -561,7 +563,7 @@ export default {
 
 .my-sticky-virtscroll-table
   /* height or max-height is important */
-  height: 220px
+  height: 380px
   border: solid black 2px
 
   .q-table__top,
