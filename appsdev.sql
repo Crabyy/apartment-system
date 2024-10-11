@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 11, 2024 at 06:24 AM
+-- Generation Time: Oct 11, 2024 at 02:09 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -69,10 +69,10 @@ CREATE TABLE `room` (
 --
 
 INSERT INTO `room` (`room_id`, `room_name`, `description`, `price`, `imagePath`, `bannerTitle`) VALUES
-(30, 'Banner', 'Pang-Kape Apartment is a luxury Apartment', 0, 'uploads/apartment.jpg', 'Pang-Kape Apartment'),
-(31, 'Studio Unit', 'Studio Unit is a good unit ', 200000, 'uploads/2bedcr.jpg', 'Pang-Kape Apartment'),
-(32, 'One Bed', 'One Bed is a good unit', 400000, 'uploads/1bedlb.jpg', 'Pang-Kape Apartment'),
-(33, 'Two Bed', 'Two Bed is a good unit', 600000, 'uploads/1bedkitchen.jpg', 'Pang-Kape Apartment');
+(30, 'Banner', 'Welcome to Pang-Kape Apartment, a luxury haven that combines sophistication with comfort in a scenic setting. Each unit within Pang-Kape has been meticulously designed to meet the standards of modern living, creating a home that offers both style and convenience. Surrounded by lush greenery and panoramic views, this apartment complex is an oasis of calm in the heart of urban living. From exquisite interiors to top-tier amenities, Pang-Kape Apartment redefines apartment living with elegance and functionality. Discover the luxury of space, where every detail is crafted to elevate your lifestyle and enhance your daily experience.', 0, 'uploads/apartment.jpg', 'Pang-Kape Apartment'),
+(31, 'Studio Unit', 'The Studio Unit is a compact yet beautifully designed space, ideal for those who value simplicity without compromising style. With an open layout that seamlessly integrates the living area, kitchen, and bathroom, this unit offers everything you need within a cozy space. Priced affordably, the Studio Unit combines functionality and charm, making it a perfect choice for minimalist living.', 200000, 'uploads/2bedcr.jpg', 'Pang-Kape Apartment'),
+(32, 'One Bed', 'The One-Bed Unit provides a more spacious option with separate living and bedroom areas, ideal for professionals or couples. Featuring large windows that fill the space with natural light, this unit offers a bright, welcoming environment. With premium finishes and a well-thought-out layout, the One-Bed Unit is a stylish choice for those seeking a balance of space and comfort.', 400000, 'uploads/1bedlb.jpg', 'Pang-Kape Apartment'),
+(33, 'Two Bed', 'Designed for families or those needing extra space, the Two-Bed Unit offers ample room and privacy. The expansive living area, coupled with a modern kitchen and well-appointed bathrooms, makes it a perfect choice for comfortable living. With sweeping views from every angle, this unit combines luxury and practicality, setting a new standard in apartment living.', 600000, 'uploads/1bedkitchen.jpg', 'Pang-Kape Apartment');
 
 -- --------------------------------------------------------
 
