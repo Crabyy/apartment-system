@@ -9,7 +9,7 @@
         Oops. Nothing here...
       </div>
 
-      <q-btn class="q-mt-xl" color="white" text-color="blue" unelevated to="/" label="Go Back" no-caps />
+      <q-btn class="q-mt-xl" color="white" text-color="blue" unelevated to="/Dashboard" label="Go Back" no-caps />
     </div>
   </div>
 </template>
