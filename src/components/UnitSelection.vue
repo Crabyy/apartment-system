@@ -212,6 +212,13 @@
             </button>
             <button
               type="button"
+              @click="showContractDialog"
+              class="inline-flex justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:w-auto"
+            >
+              View Contract
+            </button>
+            <button
+              type="button"
               @click="cancelSelect"
               class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
             >
@@ -223,12 +230,78 @@
     </div>
   </div>
 
+  <!-- Modal for Contract -->
+  <!-- Modal for Contract -->
+<div
+  v-if="contractDialogVisible"
+  class="fixed inset-0 z-10 w-screen overflow-y-auto"
+  role="dialog"
+  aria-modal="true"
+>
+  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+  <div
+    class="flex min-h-full items-center justify-center p-4 text-center sm:p-0"
+  >
+    <div
+      class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+    >
+      <div
+        class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 contract-modal-content"
+      >
+        <h3 class="text-lg font-bold mb-3">Rental Contract</h3>
+        <div class="text-left">
+          <p><strong>Name:</strong> {{ userName }}</p>
+          <p><strong>Unit No:</strong> {{ selectedUnit.unitno }}</p>
+          <p><strong>Unit Name:</strong> {{ selectedUnit.unitname }}</p>
+          <p><strong>Content:</strong></p>
+          <p>
+            This contract outlines the agreement between the renter and the
+            property owner for renting the selected unit. The renter agrees to
+            pay the monthly rent and adhere to the property guidelines,
+            maintaining the unit in good condition throughout the lease.
+          </p>
+        </div>
+        <!-- Signature Section -->
+        <div class="signature-section mt-5">
+          <div class="flex justify-between mt-5">
+            <div class="w-1/2 text-center">
+              <p>_________________________</p>
+              <p class="mt-1">Renter Signature</p>
+            </div>
+            <div class="w-1/2 text-center">
+              <p>_________________________</p>
+              <p class="mt-1">Owner Signature</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse">
+        <button
+          type="button"
+          @click="printContract"
+          class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:w-auto"
+        >
+          Print
+        </button>
+        <button
+          type="button"
+          @click="closeContractDialog"
+          class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:w-auto"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
   <PaymentMethodModal ref="paymentMethodModalRef" />
 </template>
 
 <script>
 import PaymentMethodModal from "src/pages/paymentModeModal.vue";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 import createUnit from "src/pages/createUnit.vue";
 
 export default {
@@ -257,6 +330,8 @@ export default {
     const paymentMethodModalRef = ref(null);
     const removeDialogVisible = ref(false);
     const selectDialogVisible = ref(false);
+    const contractDialogVisible = ref(false);
+    const userName = ref("");
     const selectedUnit = ref(null);
     const filteredUnits = ref([]);
     const slide = ref("first");
@@ -284,7 +359,10 @@ export default {
     onMounted(() => {
       fetchCarouselData();
       fetchData();
-      startAutoScroll(); // Start auto-scrolling when component mounts
+      startAutoScroll();
+      const userData = JSON.parse(sessionStorage.getItem("userData"));
+      console.log("User Data:", userData); // Check if 'name' is present
+      userName.value = `${userData.givenname} ${userData.surname}` || "N/A";
     });
 
     const startAutoScroll = () => {
@@ -389,7 +467,67 @@ export default {
     const rows = ref([]);
     const pagination = ref({
       rowsPerPage: 5,
-    });
+    }); // Fetch user's name
+
+    const showContractDialog = () => {
+      contractDialogVisible.value = true;
+    };
+
+    const closeContractDialog = () => {
+      contractDialogVisible.value = false;
+    };
+
+    const printContract = () => {
+      const printArea = document
+        .querySelector(".contract-modal-content")
+        .cloneNode(true);
+      const printWindow = window.open("", "_blank", "width=800,height=600");
+
+      if (printWindow) {
+        printWindow.document.open();
+        printWindow.document.write(`
+      <html>
+        <head>
+          <title>Print Contract</title>
+        </head>
+        <style>
+           @media print {
+    @page {
+      margin: 0; /* Removes default margin */
+    }
+    body {
+      margin: 1cm; /* Custom margin to ensure content fits well */
+    }
+    /* Hide browser's default header and footer */
+    html, body {
+      display: block;
+      width: 100%;
+      overflow: visible;
+    }
+  }
+        </style>
+        <body>
+          ${printArea.outerHTML}
+        </body>
+      </html>
+    `);
+        printWindow.document.close();
+
+        // Ensure the printWindow prints and closes properly
+        printWindow.onload = () => {
+          printWindow.print();
+          printWindow.onafterprint = () => {
+            printWindow.close();
+            console.log("Restored Unit Selected modal state");
+            // Restore modal states
+            contractDialogVisible.value = false;
+            selectDialogVisible.value = true;
+          };
+        };
+      } else {
+        console.error("Failed to open print window.");
+      }
+    };
 
     const fetchData = async () => {
       try {
@@ -511,12 +649,19 @@ export default {
       filteredUnits,
       slide,
       currentIndex,
+
+      contractDialogVisible,
+      userName,
+      showContractDialog,
+      closeContractDialog,
+      printContract,
     };
   },
 };
 </script>
 
 <style lang="sass" scoped>
+
 .carousel-container
   display: flex
   overflow: hidden
