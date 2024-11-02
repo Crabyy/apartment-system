@@ -1,11 +1,6 @@
 <?php
 include('../../config/dbcon.php');
 
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 // Handle GET and POST requests
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
   // Fetch available units
